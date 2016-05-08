@@ -17,21 +17,17 @@ package body Genetic is
    end Total_Fitness;
 
    -- Create a pool full of random genes. It will not be sorted yet.
-   function Random_Pool return Pool is
-      -- Create a full pool.
-      Result : Full_Pool;
+   procedure Randomize (P : out Pool) is
    begin
       -- For each gene in the pool
-      for I in Result'Range loop
+      for I in P'Range loop
          -- Create a random gene.
-         Result (I).G := Random_Gene;
+         P (I).G := Random_Gene;
          -- Since we have yet to evaluate the fitness of this gene, mark that
          -- it is not cached.
-         Result (I).Cached := False;
+         P (I).Cached := False;
       end loop;
-      -- Return the pool we have created.
-      return Result;
-   end Random_Pool;
+   end Randomize;
 
    -- Get the most fit gene from the pool. The pool must be sorted before
    -- calling this.
@@ -52,7 +48,7 @@ package body Genetic is
    procedure Pool_Sort is new Ada.Containers.Generic_Constrained_Array_Sort (
       Index_Type => Pool_Index,
       Element_Type => Fit_Gene,
-      Array_Type => Full_Pool,
+      Array_Type => Pool,
       "<" => Gene_Compare);
 
    -- Advance the evolution of the genes. This first sorts the genes from most

@@ -23,10 +23,10 @@ package Genetic is
 
    -- The collection of all genes currently being evolved, usually sorted from
    -- most to least fit.
-   type Pool (<>) is private;
+   type Pool is private;
 
    -- Create a pool full of random genes. It will not be sorted yet.
-   function Random_Pool return Pool;
+   procedure Randomize (P : out Pool);
    
    -- Determine the sum of each gene's fitness within the gene pool.
    function Total_Fitness (P : in Pool) return Float;
@@ -56,9 +56,6 @@ private
    subtype Pool_Index is Integer range 1 .. Pool_Size;
    
    -- The actual pool type.
-   type Pool is array (Pool_Index range <>) of Fit_Gene;
-   
-   -- A full-sized gene pool.
-   subtype Full_Pool is Pool (Pool_Index);
+   type Pool is array (Pool_Index) of Fit_Gene;
 
 end Genetic;
